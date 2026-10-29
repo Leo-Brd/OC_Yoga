@@ -1,5 +1,6 @@
 package com.openclassrooms.starterjwt.exception;
 
+import com.openclassrooms.starterjwt.payload.response.MessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,9 +15,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    // Couvre aussi les identifiants non numériques dans l'URL (ex: /api/session/abc)
-    @ExceptionHandler({BadRequestException.class, MethodArgumentTypeMismatchException.class})
-    public ResponseEntity<Void> handleBadRequest() {
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<MessageResponse> handleBadRequest(BadRequestException exception) {
+        MessageResponse body = exception.getMessage() == null ? null : new MessageResponse(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
+    // Identifiant non numérique dans l'URL (ex: /api/session/abc)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Void> handleInvalidPathVariable() {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
