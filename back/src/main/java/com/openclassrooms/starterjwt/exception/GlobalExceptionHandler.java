@@ -19,4 +19,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Void> handleBadRequest() {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Void> handleUnauthorized() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
 }
