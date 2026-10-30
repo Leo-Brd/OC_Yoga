@@ -14,3 +14,14 @@ h1 {
 .w100 {
     width: 100%;
 }
+
+/* Espacements utilisés dans les templates (échelle de 8px) */
+.m0 { margin: 0; }
+.m3 { margin: 24px; }
+.ml1 { margin-left: 8px; }
+.ml2 { margin-left: 16px; }
+.ml3 { margin-left: 24px; }
+.mt2 { margin-top: 16px; }
+.mt3 { margin-top: 24px; }
+.my2 { margin-top: 16px; margin-bottom: 16px; }
+.p2 { padding: 16px; }
