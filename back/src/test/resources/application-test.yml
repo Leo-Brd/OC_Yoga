@@ -1,0 +1,19 @@
+oc:
+  app:
+    jwtExpirationMs: 86400000
+    # Clé factice, réservée aux tests (valeur encodée en base64)
+    jwtSecret: eW9nYS1pbnRlZ3JhdGlvbi10ZXN0cy1vbmx5LXNlY3JldC1rZXktMDEyMzQ1Njc4OS1hYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5eg==
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:yoga-test;MODE=MySQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+  docker:
+    compose:
+      enabled: false
