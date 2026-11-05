@@ -2,6 +2,15 @@ import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 
 setupZoneTestEnv();
 
+/* jsdom ne sait pas lire certains CSS d'Angular Material : ce message est sans conséquence sur les tests */
+const originalConsoleError = console.error;
+console.error = (...args: unknown[]): void => {
+  if (String(args[0]).includes('Could not parse CSS stylesheet')) {
+    return;
+  }
+  originalConsoleError(...args);
+};
+
 /* jsdom n'implémente pas matchMedia, utilisé par @angular/flex-layout */
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -30,9 +39,6 @@ const mock = () => {
 
 Object.defineProperty(window, 'localStorage', { value: mock() });
 Object.defineProperty(window, 'sessionStorage', { value: mock() });
-Object.defineProperty(window, 'getComputedStyle', {
-  value: () => ['-webkit-appearance'],
-});
 
 Object.defineProperty(document.body.style, 'transform', {
   value: () => {

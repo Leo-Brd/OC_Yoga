@@ -11,6 +11,7 @@ module.exports = {
     'src/app/**/*.ts',
     '!src/app/**/*.spec.ts',
     '!src/app/**/*.interface.ts',
+    '!src/app/testing/**',
   ],
   coverageDirectory: './coverage/jest',
   coverageReporters: ['text', 'text-summary', 'lcov', 'html', 'json-summary'],
