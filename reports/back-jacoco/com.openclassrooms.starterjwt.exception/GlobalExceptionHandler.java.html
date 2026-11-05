@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">yoga-app</a> &gt; <a href="index.source.html" class="el_package">com.openclassrooms.starterjwt.exception</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.openclassrooms.starterjwt.exception;
+
+import com.openclassrooms.starterjwt.payload.response.MessageResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import java.util.stream.Collectors;
+
+@RestControllerAdvice
+<span class="fc" id="L14">public class GlobalExceptionHandler {</span>
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity&lt;Void&gt; handleNotFound() {
+<span class="fc" id="L18">        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();</span>
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity&lt;MessageResponse&gt; handleBadRequest(BadRequestException exception) {
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        MessageResponse body = exception.getMessage() == null ? null : new MessageResponse(exception.getMessage());</span>
+<span class="fc" id="L24">        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);</span>
+    }
+
+    // Identifiant non numérique dans l'URL (ex: /api/session/abc)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity&lt;Void&gt; handleInvalidPathVariable() {
+<span class="fc" id="L30">        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();</span>
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity&lt;Void&gt; handleUnauthorized() {
+<span class="fc" id="L35">        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();</span>
+    }
+
+    // Corps de requête invalide (@Valid) : sans ce handler, Spring Security transforme l'erreur en 401
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;MessageResponse&gt; handleValidation(MethodArgumentNotValidException exception) {
+<span class="fc" id="L41">        String message = exception.getBindingResult().getFieldErrors().stream()</span>
+<span class="fc" id="L42">                .map(error -&gt; error.getField() + &quot;: &quot; + error.getDefaultMessage())</span>
+<span class="fc" id="L43">                .collect(Collectors.joining(&quot;, &quot;));</span>
+<span class="fc" id="L44">        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse(message));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

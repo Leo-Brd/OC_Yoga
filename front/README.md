@@ -1,48 +1,29 @@
-# Yoga
+# Yoga : front
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.16.
+Front Angular 19 de l'application Yoga, généré avec [Angular CLI](https://github.com/angular/angular-cli) 19.2.16.
 
-## Start the project
+> Installation complète, lancement du back, couverture et rapports : voir le [README à la racine du dépôt](../README.md).
 
-Git clone:
+## Démarrer
 
-> git clone https://github.com/OpenClassrooms-Student-Center/P5-Full-Stack-testing
+```bash
+npm install
+npm run start      # http://localhost:4200 (le back doit tourner sur le port 8080)
+```
 
-Go inside folder:
+## Tests
 
-> cd yoga
+| Commande | Rôle |
+|---|---|
+| `npm test` | tests unitaires et d'intégration (Jest) |
+| `npm run test:coverage` | idem + couverture ; échoue si un indicateur est sous 80 % |
+| `npm run test:watch` | Jest en continu |
+| `npm run e2e:ci` | tests E2E Cypress en headless (Chrome) sur un build instrumenté |
+| `npm run e2e:coverage` | rapport de couverture E2E ; échoue si un indicateur est sous 80 % |
+| `npm run e2e` | Cypress en mode interactif |
 
-Install dependencies:
+Rapports :
 
-> npm install
+- Jest : `coverage/jest/lcov-report/index.html`
+- Cypress : `coverage/lcov-report/index.html`
 
-Launch Front-end:
-
-> npm run start;
-
-
-### Test
-
-#### E2E
-
-Launching e2e test:
-
-> npm run e2e
-
-Generate coverage report (you should launch e2e test before):
-
-> npm run e2e:coverage
-
-Report is available here:
-
-> front/coverage/lcov-report/index.html
-
-#### Unitary test
-
-Launching test:
-
-> npm run test
-
-for following change:
-
-> npm run test:watch

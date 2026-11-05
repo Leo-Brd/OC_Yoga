@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WebSecurityConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">yoga-app</a> &gt; <a href="index.source.html" class="el_package">com.openclassrooms.starterjwt.security</a> &gt; <span class="el_source">WebSecurityConfig.java</span></div><h1>WebSecurityConfig.java</h1><pre class="source lang-java linenums">package com.openclassrooms.starterjwt.security;
+
+import com.openclassrooms.starterjwt.security.jwt.AuthEntryPointJwt;
+import com.openclassrooms.starterjwt.security.jwt.AuthTokenFilter;
+import com.openclassrooms.starterjwt.security.services.UserDetailsServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+@Configuration
+@EnableWebSecurity
+<span class="fc" id="L24">public class WebSecurityConfig {</span>
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+<span class="fc" id="L30">        return authConfig.getAuthenticationManager();</span>
+    }
+
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+<span class="fc" id="L35">        return new AuthTokenFilter();</span>
+    }
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+<span class="fc" id="L41">        return new BCryptPasswordEncoder();</span>
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+<span class="fc" id="L46">        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();</span>
+<span class="fc" id="L47">        authProvider.setUserDetailsService(userDetailsService);</span>
+<span class="fc" id="L48">        authProvider.setPasswordEncoder(passwordEncoder());</span>
+<span class="fc" id="L49">        return authProvider;</span>
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+<span class="fc" id="L54">        http</span>
+<span class="fc" id="L55">                .cors(AbstractHttpConfigurer::disable)</span>
+<span class="fc" id="L56">                .csrf(AbstractHttpConfigurer::disable)</span>
+<span class="fc" id="L57">                .sessionManagement(management -&gt; management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))</span>
+<span class="fc" id="L58">                .authenticationProvider(authenticationProvider())</span>
+<span class="fc" id="L59">                .authorizeHttpRequests(authorize -&gt; authorize</span>
+                        // No auth needed on :
+<span class="fc" id="L61">                        .requestMatchers(&quot;/api/auth/**&quot;).permitAll()</span>
+<span class="fc" id="L62">                        .requestMatchers(&quot;/api/**&quot;).authenticated()</span>
+<span class="fc" id="L63">                        .anyRequest().authenticated()</span>
+                )
+<span class="fc" id="L65">                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)</span>
+<span class="fc" id="L66">                .exceptionHandling(exceptionHandling -&gt; exceptionHandling.authenticationEntryPoint(</span>
+                        (request, response, exception) -&gt; {
+<span class="fc" id="L68">                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());</span>
+<span class="fc" id="L69">                        }));</span>
+<span class="fc" id="L70">        return http.build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

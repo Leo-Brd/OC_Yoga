@@ -120,6 +120,20 @@ La capture d'écran ci-dessous résume les étapes précédentes :
 
 ![2-docker-desktop-bdd](pictures/2-docker-desktop-bdd.png)
 
+## Tests
+
+Les tests ne nécessitent ni Docker ni MySQL : les tests d'intégration utilisent une base H2 en mémoire.
+
+```
+mvn clean verify
+```
+
+Cette commande lance les 125 tests (JUnit 5, Mockito, Spring Boot Test), génère le rapport JaCoCo et **échoue si un indicateur de couverture est sous 80 %** (le package `dto` est exclu).
+
+Rapport : `target/site/jacoco/index.html`
+
+Détails (répartition unitaires / intégration, couverture, plan de testing) : voir le [README à la racine du dépôt](../README.md).
+
 
 ## Ressources
 

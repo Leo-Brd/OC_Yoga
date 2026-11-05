@@ -167,6 +167,10 @@
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <!-- Repart de zéro à chaque exécution : sinon d'anciennes données de couverture faussent le contrôle -->
+                            <append>false</append>
+                        </configuration>
                     </execution>
                     <!-- attached to Maven test phase -->
                     <execution>

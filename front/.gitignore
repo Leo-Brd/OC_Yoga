@@ -33,6 +33,10 @@ yarn-error.log
 .sass-cache/
 /connect.lock
 /coverage
+/.nyc_output
+/cypress/downloads
+/cypress/screenshots
+/cypress/videos
 /libpeerconnection.log
 testem.log
 /typings
