@@ -202,6 +202,15 @@ describe('Sessions (intégration)', () => {
       app.http.expectNone('api/session');
     });
 
+    it('revient à la liste avec le bouton retour', async () => {
+      await openCreate();
+
+      await app.click(app.byText('button', 'arrow_back')[0]);
+
+      expect(app.url).toBe('/sessions');
+      await app.respond('GET', 'api/session', []);
+    });
+
     it('redirige un utilisateur non admin vers la liste', async () => {
       app = await AppHarness.start(memberSession);
 

@@ -1,0 +1,9 @@
+{
+  "token": "jwt-member",
+  "type": "Bearer",
+  "id": 5,
+  "username": "john@doe.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "admin": false
+}

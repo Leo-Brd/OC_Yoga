@@ -1,0 +1,12 @@
+{
+  "extension": [".ts"],
+  "include": ["src/app/**/*.ts"],
+  "exclude": ["src/app/**/*.spec.ts", "src/app/**/*.interface.ts", "src/app/testing/**"],
+  "reporter": ["text-summary", "lcov"],
+  "report-dir": "coverage",
+  "check-coverage": true,
+  "statements": 80,
+  "branches": 80,
+  "functions": 80,
+  "lines": 80
+}

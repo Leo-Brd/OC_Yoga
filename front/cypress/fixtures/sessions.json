@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "morning flow",
+    "description": "Relax and breathe",
+    "date": "2026-01-15T00:00:00.000+00:00",
+    "teacher_id": 2,
+    "users": [7, 8],
+    "createdAt": "2026-01-01T10:00:00",
+    "updatedAt": "2026-01-02T10:00:00"
+  },
+  {
+    "id": 2,
+    "name": "evening stretch",
+    "description": "Unwind after work",
+    "date": "2026-02-20T00:00:00.000+00:00",
+    "teacher_id": 1,
+    "users": [],
+    "createdAt": "2026-01-03T10:00:00",
+    "updatedAt": "2026-01-04T10:00:00"
+  }
+]
