@@ -7,12 +7,21 @@ module.exports = {
   bail: false,
   verbose: false,
   collectCoverage: false,
+  collectCoverageFrom: [
+    'src/app/**/*.ts',
+    '!src/app/**/*.spec.ts',
+    '!src/app/**/*.interface.ts',
+  ],
   coverageDirectory: './coverage/jest',
-  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
+  coverageReporters: ['text', 'text-summary', 'lcov', 'html', 'json-summary'],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/cypress/'],
   coveragePathIgnorePatterns: ['<rootDir>/node_modules/'],
   coverageThreshold: {
     global: {
-      statements: 80
+      statements: 80,
+      branches: 80,
+      functions: 80,
+      lines: 80
     },
   },
   roots: [
